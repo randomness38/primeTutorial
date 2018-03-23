@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux'
 import { StyleSheet, Text, View } from 'react-native';
-import ReduxContactForm from "./src/components/ContactInput";
+import ReduxContactForm from "./src/components/ReduxContactForm";
 import store from "./src/store";
 
 export default class App extends React.Component {
@@ -20,6 +20,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-      alignItems:'center'
   },
 });
