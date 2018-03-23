@@ -4,35 +4,21 @@ import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-nativ
 import { ContactInput } from "./ContactInput";
 
 
+//Validation
+const required = value => value ? undefined : 'Required';
+const maxLength15 = value => value && value.length > 15 ? `Must be 15 characters or less` : undefined;
+const number = value => value && isNaN(Number(value)) ? 'Must be a number' : undefined;
+const minValue = min => value =>
+    value && value < min ? `Must be at least ${min}` : undefined;
+const minValue18 = minValue(18);
+const isValidEmail = value =>
+    value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'Invalid email address' : undefined;
+//Warning
+const over70YearsOld = value =>
+    value && value > 70 ? 'You might be too old for using this' : undefined;
+const isYahooMail = value =>
+    value && /.+@yahoo\.com/.test(value) ?'Really? You still use yahoo mail ?' : undefined;
 
-const validate = values => {
-    const errors = {};
-    if (!values.username) {
-        errors.username = 'Required'
-    } else if (values.username.length > 20) {
-        errors.username = 'username must be less than or equal 20 characters'
-    }
-    if (!values.email) {
-        errors.email = 'Required'
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
-    }
-    if (!values.age) {
-        errors.age = 'Required'
-    } else if (isNaN(Number(values.age))) {
-        errors.age = 'Age must be a number'
-    } else if (Number(values.age) < 18) {
-        errors.age = 'You must be at least 18 years old'
-    }
-    return errors
-}
-const warn = values => {
-    const warnings = {};
-    if (values.age < 19) {
-        warnings.age = 'You seem a bit young...'
-    }
-    return warnings
-}
 
 
 const submit = values => {
@@ -47,9 +33,14 @@ const DumbContactForm = (props) => {
     return (
         <View>
             <Text>Prim Tutorial : Redux Form</Text>
-            <Field  name='username' keyboardType='default' label='user name : ' component={ContactInput}/>
-            <Field  name='email' keyboardType='email-address' label='Email: ' component={ContactInput}/>
-            <Field  name='age' keyboardType='numeric' label='Age: ' component={ContactInput}/>
+            <Field  name='username' keyboardType='default' label='user name : ' component={ContactInput}
+                    validate={[required, maxLength15]}/>
+            <Field  name='email' keyboardType='email-address' label='Email: ' component={ContactInput}
+                    validate={isValidEmail}
+                    warn={isYahooMail}/>
+            <Field  name='age' keyboardType='numeric' label='Age: ' component={ContactInput}
+                    validate={[required, number, minValue18]}
+                    warn={over70YearsOld}/>
             <TouchableOpacity onPress={handleSubmit(submit)}>
                 <Text>Submit</Text>
             </TouchableOpacity>
@@ -59,9 +50,7 @@ const DumbContactForm = (props) => {
 
 // RedexForm 으로 변환할 때 form 이름 , validate 메소드 , warn 메소드를 함께 도킹
 const ReduxContactForm = reduxForm({
-    form: 'contact', // a unique identifier for this form
-    validate,                // <--- validation function given to redux-form
-    warn
+    form: 'contact',
 })(DumbContactForm);
 
 export default ReduxContactForm;
