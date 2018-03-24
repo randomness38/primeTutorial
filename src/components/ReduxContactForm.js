@@ -4,6 +4,9 @@ import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-nativ
 import { ContactInput } from "./ContactInput";
 import validate from "../util/validate";
 import asyncValidate from "../util/asyncValidate";
+import RemoteSubmitButton from "../containers/RemoteSubmitButton";
+import {CONTACT_FORM} from "../util/FormNames";
+
 // import submit from "../../submit";
 
 // //Validation
@@ -48,13 +51,15 @@ const DumbContactForm = (props) => {
                     // validate={[required, number, minValue18]}
                     // warn={over70YearsOld}
             />
-            <TouchableOpacity onPress={handleSubmit(submit)} disabled={submitting}>
-                <Text>Submit</Text>
-            </TouchableOpacity>
+            <RemoteSubmitButton/>
 
-            <TouchableOpacity onPress={reset} disabled={submitting}>
-                <Text>Clear</Text>
-            </TouchableOpacity>
+            {/*<TouchableOpacity onPress={handleSubmit(submit)} disabled={submitting}>*/}
+                {/*<Text>Submit</Text>*/}
+            {/*</TouchableOpacity>*/}
+
+            {/*<TouchableOpacity onPress={reset} disabled={submitting}>*/}
+                {/*<Text>Clear</Text>*/}
+            {/*</TouchableOpacity>*/}
 
         </View>
     )
@@ -62,10 +67,11 @@ const DumbContactForm = (props) => {
 
 // RedexForm 으로 변환할 때 form 이름 , validate 메소드 , warn 메소드를 함께 도킹
 const ReduxContactForm = reduxForm({
-    form: 'contact',
+    form: CONTACT_FORM, // a unique identifier for this form
     validate,
     asyncValidate,
     asyncBlurFields: ['username'],
+    onSubmit: submit
 })(DumbContactForm);
 
 
