@@ -7,12 +7,14 @@ export const ContactInput = ({
     // <TextInput> 은 mata (: 인풋 상태), input(: 인풋 데이터) data 를 업도킹
                                 label,
                                 keyboardType,
-                                meta: { touched, error, warning },
-                                input: { onChange, ...restInput }}) => {
+                                meta: { touched, error, warning, asyncValidating },
+                                input: { onChange, ...restInput },
+                                 placeholder,}) => {
     return (
         <View>
             <Text>{label}</Text>
             <TextInput
+                placeholder={placeholder}
                 keyboardType={keyboardType}
                 onChangeText={onChange}
                 {...restInput}
@@ -20,7 +22,9 @@ export const ContactInput = ({
             </TextInput>
 
             {touched && ((error && <Text style={{ color: 'red' }}>{error}</Text>) ||
-                (warning && <Text style={{ color: 'orange' }}>{warning}</Text>))}
+                (warning && <Text style={{ color: 'orange' }}>{warning}</Text>) ||
+                (asyncValidating && <Text style={{ color: 'orange' }}>Validating...</Text>))}
+
         </View>
     )
 }
