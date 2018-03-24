@@ -1,19 +1,24 @@
 // validate example 찾아봐야 겠다
 // 아래 예시들은 어떻게 굴려먹을 수 있을까
 
-const validate = values => {
+export default validate = values => {
     const errors = {};
-    if (!values.username) {
-        errors.username = 'Required';
+    if (!values.firstName) {
+        errors.firstName = 'Required';
+    }
+    if (!values.lastName) {
+        errors.lastName = 'Required';
     }
     if (!values.email) {
         errors.email = 'Required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Invalid email address';
     }
-
+    if (!values.age) {
+        errors.age = 'Required';
+    }
     return errors;
 };
-
-export default validate;
 
 
 // //Validation

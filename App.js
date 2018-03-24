@@ -1,14 +1,16 @@
 import React from 'react';
 import { Provider } from 'react-redux'
 import { StyleSheet, Text, View } from 'react-native';
-import ReduxContactForm from "./src/components/ReduxContactForm";
+// import ReduxContactForm from "./src/components/ReduxContactForm";
 import store from "./src/store";
+// import ContactForm from "./src/components/ContactForm";
+import WizardForm from "./src/components/WizardForm";
 
 export default class App extends React.Component {
   render() {
     return (
         <Provider store={store}>
-            <ReduxContactForm style={styles.container}/>
+            <WizardForm style={styles.container}/>
         </Provider>
     );
   }
