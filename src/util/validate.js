@@ -1,38 +1,71 @@
-// validate example 찾아봐야 겠다
-// 아래 예시들은 어떻게 굴려먹을 수 있을까
-
-export default validate = values => {
+const validate = values => {
     const errors = {};
-    if (!values.firstName) {
-        errors.firstName = 'Required';
+    if (!values.deckTitle) {
+        errors.deckTitle = "Required";
     }
-    if (!values.lastName) {
-        errors.lastName = 'Required';
+    if (!values.cards || !values.cards.length) {
+        errors.cards = { _error: "At least one card must be entered" };
+    } else {
+        const cardsArrayErrors = [];
+        values.cards.forEach((card, cardIndex) => {
+            const cardErrors = {};
+            if (!card || !card.question) {
+                cardErrors.question = "Required";
+                cardsArrayErrors[cardIndex] = cardErrors;
+            }
+            if (!card || !card.answer) {
+                cardErrors.answer = "Required";
+                cardsArrayErrors[cardIndex] = cardErrors;
+            }
+
+        });
+        if (cardsArrayErrors.length) {
+            errors.cards = cardsArrayErrors;
+        }
     }
-    if (!values.email) {
-        errors.email = 'Required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address';
+
+
+
+
+    if (!values.opts || !values.opts.length) {
+        errors.opts = { _error: "At least one opt must be entered" };
     }
-    if (!values.age) {
-        errors.age = 'Required';
+    if (values && values.opts && values.opts.length) {
+        const optArrayErrors = [];
+        const optErrors={}
+        values.opts.forEach((opt, optIndex) => {
+            if (!opt || !opt.length) {
+                optArrayErrors[optIndex] = "Required";
+            }
+        });
+
+        if (optArrayErrors.length) {
+            optErrors.opts = optArrayErrors;
+            optArrayErrors[values.opts.length] = optErrors;
+        }
+
+        if (values.opts.length > 4) {
+            if (!optErrors.opts) {
+                optErrors.opts = [];
+            }
+
+            // 먹혔는데 바닥에서 멘트가 나와서 의미가 없어 5번째 옵션에떠야해 *submit 눌러야 나옴
+            // errors.opts = { _error: "No more than four opts allowed"};
+            //optArrayErrors[opt] = "No more than four opts allowed"; 얘는 글을 다써야 5번쨰에서 뜸
+
+            optErrors.opts._error = "No more than four opts allowed";
+            optArrayErrors[values.opts.length] = optErrors;
+        }
+
+
+        if (optArrayErrors.length) {
+            errors.opts = optArrayErrors;
+        }
     }
+
+
+
     return errors;
 };
 
-
-// //Validation
-// const required = value => value ? undefined : 'Required';
-// const maxLength15 = value => value && value.length > 15 ? `Must be 15 characters or less` : undefined;
-// const number = value => value && isNaN(Number(value)) ? 'Must be a number' : undefined;
-// const minValue = min => value =>
-//     value && value < min ? `Must be at least ${min}` : undefined;
-// const minValue18 = minValue(18);
-// const isValidEmail = value =>
-//     value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'Invalid email address' : undefined;
-// //Warning
-// const over70YearsOld = value =>
-//     value && value > 70 ? 'You might be too old for using this' : undefined;
-// const isYahooMail = value =>
-//     value && /.+@yahoo\.com/.test(value) ?'Really? You still use yahoo mail ?' : undefined;
-//
+export default validate;

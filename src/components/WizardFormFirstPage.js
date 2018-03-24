@@ -1,35 +1,28 @@
 import React from 'react';
-import { Text, View, StyleSheet,TouchableOpacity, Button } from 'react-native';
-
+import { Text, View, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 import validate from '../util/validate';
 import renderField from './renderField';
+import RemoteSubmitButton from "../util/RemoteSubmitButton";
 
-const WizardFormFirstPage = props => {
-    const { handleSubmit } = props;
+const WizardFormFirstPage = () => {
     return (
         <View>
             <Field
-                name="firstName"
+                name="deckTitle"
                 type="text"
                 component={renderField}
-                label="First Name"
-            />
-            <Field
-                name="lastName"
-                type="text"
-                component={renderField}
-                label="Last Name"
+                label="Deck Title"
             />
             <View>
-                <Button onPress={handleSubmit} title='next'/>
+                <RemoteSubmitButton/>
             </View>
         </View>
     );
 };
 
 export default reduxForm({
-    form: 'wizard', //                 <------ same form name
+    form: 'deckForm', //                 <------ same form name
     destroyOnUnmount: false, //        <------ preserve form data
     forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
     validate,

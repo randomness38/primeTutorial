@@ -1,14 +1,13 @@
 import React from 'react';
-import { Text, View,TextInput } from 'react-native';
+import {View, Text, ScrollView, TextInput, Button } from 'react-native'
 
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
-    <View>
-        <Text>{label}</Text>
+
+export default renderField = ({ input, label, type, meta: { touched, error } }) => {
+    return (
         <View>
-            <TextInput {...input} placeholder={label} type={type} />
-            {touched && error && <Text>{error}</Text>}
+            <Text style={{fontSize:20}}>{label}</Text>
+            <TextInput style={{fontSize:20}} {...input} type={type} placeholder={label} />
+            {touched && error && <Text style={{ color: 'red' }}>{error}</Text>}
         </View>
-    </View>
-);
-
-export default renderField;
+    )
+}
