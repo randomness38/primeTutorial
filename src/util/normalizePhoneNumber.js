@@ -1,9 +1,3 @@
-/*
-Mr Nguyen Duc Hoang
-https://www.youtube.com/c/nguyenduchoang
-Email: sunlight4d@gmail.com
-Redux-form => Normalize phone number. Ex: 096.489.6239
-*/
 export default normalizePhoneNumber = (value) => {
     if (!value) {
         return '';

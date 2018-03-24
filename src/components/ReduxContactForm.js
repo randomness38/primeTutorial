@@ -6,8 +6,9 @@ import validate from "../util/validate";
 import asyncValidate from "../util/asyncValidate";
 import RemoteSubmitButton from "../containers/RemoteSubmitButton";
 import {CONTACT_FORM} from "../util/FormNames";
-
-// import submit from "../../submit";
+import normalizePhoneNumber from "../util/normalizePhoneNumber";
+const normalizeUpper = value => value && value.toUpperCase();
+const normalizeLower = value => value && value.toLowerCase();
 
 // //Validation
 // const required = value => value ? undefined : 'Required';
@@ -42,10 +43,19 @@ const DumbContactForm = (props) => {
             <Text>email: must be sunlight4d@gmail.com</Text>
             <Field  name='username' keyboardType='default' label='user name : ' component={ContactInput} placeholder="Enter name"
                     // validate={[required, maxLength15]}
+                    normalize={normalizeLower}
+
+            />
+            <Field name="fullname" keyboardType="default" label="Fullname: " placeholder="Full name(uppercase)" component={ContactInput}
+                   normalize={normalizeUpper}
             />
             <Field  name='email' keyboardType='email-address' label='Email: ' component={ContactInput} placeholder="Enter Email"
                     // validate={isValidEmail}
                     // warn={isYahooMail}
+
+            />
+            <Field name="phoneNumber" keyboardType="numeric" label="Phone(999.999.9999): " placeholder="Your phone number" component={ContactInput}
+                   normalize={normalizePhoneNumber}
             />
             <Field  name='age' keyboardType='numeric' label='Age: ' component={ContactInput} placeholder="Enter age"
                     // validate={[required, number, minValue18]}
